@@ -16,7 +16,12 @@ POST {{host}}/api/auth/register
 content-type: {{ctForm}}
 
 name=pokit
-&telephone=13262819717
+&telephone=13262819718
 &password=qwertyu
 
-###
+###登录
+POST {{host}}/api/auth/login
+content-type: {{ctForm}}
+
+telephone=13262819718
+&password=qwertyu
