@@ -10,3 +10,8 @@ go get -u github.com/jinzhu/gorm
 // mysql驱动
 go get github.com/go-sql-driver/mysql
 ```
+
+## 运行
+```
+go build && ./ginStudy
+```

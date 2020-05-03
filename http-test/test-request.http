@@ -11,7 +11,7 @@
 ###
 GET {{host}}/
 
-###注册用户
+###注册
 POST {{host}}/api/auth/register
 content-type: {{ctForm}}
 
