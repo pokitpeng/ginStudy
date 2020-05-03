@@ -5,6 +5,18 @@
 # * 'gtrp' and 'gtr' create a GET request with or without query parameters;
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
-GET http://127.0.0.1:8080/
+@host=http://127.0.0.1:8080
+@ctJson=application/json
+@ctForm=application/x-www-form-urlencoded
+###
+GET {{host}}/
+
+###注册用户
+POST {{host}}/api/auth/register
+content-type: {{ctForm}}
+
+name=pokit
+&telephone=13262819717
+&password=qwertyu
 
 ###
