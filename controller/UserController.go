@@ -8,11 +8,12 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"golang.org/x/crypto/bcrypt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
+	"golang.org/x/crypto/bcrypt"
 )
 
+// 注册
 func Register(ctx *gin.Context) {
 	DB := common.GetDB()
 	// 获取参数
@@ -58,6 +59,7 @@ func Register(ctx *gin.Context) {
 	})
 }
 
+// 登录
 func Login(ctx *gin.Context) {
 	DB := common.GetDB()
 	// 获取参数
@@ -86,13 +88,25 @@ func Login(ctx *gin.Context) {
 		return
 	}
 	// 发放token
-	token := "111"
+	token, err := common.ReleaseToken(user)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"code": 500, "msg": "系统异常"})
+		log.Printf("token generate error:%v", err)
+		return
+	}
 	// 返回结果
 	ctx.JSON(200, gin.H{
 		"code":    200,
 		"message": "登录成功",
 		"data":    gin.H{"token": token},
 	})
+}
+
+// 获取用户信息
+func Info(ctx *gin.Context) {
+	//获取的用户肯定是通过认证的，直接先从上下文中获取
+	user, _ := ctx.Get("user")
+	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "success", "data": gin.H{"user": user}})
 }
 
 // 判断手机号是否已在数据库中

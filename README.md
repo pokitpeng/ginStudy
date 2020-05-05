@@ -9,6 +9,8 @@ go get -u github.com/gin-gonic/gin
 go get -u github.com/jinzhu/gorm
 // mysql驱动
 go get github.com/go-sql-driver/mysql
+// jwt
+go get -u github.com/dgrijalva/jwt-go
 ```
 
 ## 运行
