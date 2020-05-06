@@ -11,6 +11,8 @@ go get -u github.com/jinzhu/gorm
 go get github.com/go-sql-driver/mysql
 // jwt
 go get -u github.com/dgrijalva/jwt-go
+// 读取配置文件
+go get -u github.com/spf13/viper
 ```
 
 ## 运行
