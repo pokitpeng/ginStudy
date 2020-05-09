@@ -2,6 +2,7 @@ package main
 
 import (
 	"ginStudy/common"
+	"ginStudy/routes"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +17,7 @@ func main() {
 	defer db.Close()
 
 	r := gin.Default()
-	r = CollectRoute(r)
+	r = routes.CollectRoute(r)
 
 	port := viper.GetString("server.port")
 	if port == "" {

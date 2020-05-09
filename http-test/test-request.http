@@ -8,11 +8,12 @@
 @host=http://127.0.0.1:8080
 @ctJson=application/json
 @ctForm=application/x-www-form-urlencoded
+@prefix=/api/v1/auth
 ###
 GET {{host}}/
 
 ###注册
-POST {{host}}/api/auth/register
+POST {{host}}{{prefix}}/register
 content-type: {{ctForm}}
 
 name=pokit
@@ -20,13 +21,13 @@ name=pokit
 &password=qwertyu
 
 ###登录
-POST {{host}}/api/auth/login
+POST {{host}}{{prefix}}/login
 content-type: {{ctForm}}
 
 telephone=13262819719
 &password=qwertyu
 
 ###获取用户信息
-GET {{host}}/api/auth/info
+GET {{host}}{{prefix}}/info
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEsImV4cCI6MTU4OTI4OTIyNSwiaWF0IjoxNTg4Njg0NDI1LCJpc3MiOiJwb2tpdCIsInN1YiI6InVzZXIgdG9rZW4ifQ.o8gWIUEdrLN_ydu1wDRESG7c1v9ozbPAET-3bFG6GDY
 content-type: {{ctForm}}
