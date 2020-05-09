@@ -15,7 +15,17 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// 注册
+// @Tags 用户模块
+// @Summary 注册
+// @Description 用户注册接口
+// @Accept mpfd
+// @Produce json
+// @Param name formData string false "用户名"
+// @Param telephone formData string true "手机号"
+// @Param password formData string true "密码"
+// @Success 200 {string} string "{"code":200,"data":...,"message": "注册成功"}"
+// @Failure 422 {string} string "{"code":422,"message": ...}"
+// @Router /api/v1/auth/register [post]
 func Register(ctx *gin.Context) {
 	DB := common.GetDB()
 	// 获取参数
@@ -66,7 +76,16 @@ func Register(ctx *gin.Context) {
 	response.Response(ctx, http.StatusOK, 200, "注册成功", gin.H{})
 }
 
-// 登录
+// @Tags 用户模块
+// @Summary 登陆
+// @Description 用户登陆接口
+// @Accept mpfd
+// @Produce json
+// @Param telephone formData string true "手机号"
+// @Param password formData string true "密码"
+// @Success 200 {string} string "{"code":200,"data":...,"message": "登陆成功"}"
+// @Failure 422 {string} string "{"code":422,"message": ...}"
+// @Router /api/v1/auth/login [post]
 func Login(ctx *gin.Context) {
 	DB := common.GetDB()
 	// 获取参数
@@ -115,7 +134,14 @@ func Login(ctx *gin.Context) {
 	response.Response(ctx, http.StatusOK, 200, "登录成功", gin.H{"token": token})
 }
 
-// 获取用户信息
+// @Tags 用户模块
+// @Summary 获取用户信息
+// @Description 获取用户信息
+// @Produce json
+// @Param name query string false "用户名"
+// @Success 200 {string} string "{"code":200,"data":...,"message": "登陆成功"}"
+// @Failure 422 {string} string "{"code":422,"message": ...}"
+// @Router /api/v1/auth/info [get]
 func Info(ctx *gin.Context) {
 	//获取的用户肯定是通过认证的，直接先从上下文中获取
 	user, _ := ctx.Get("user")

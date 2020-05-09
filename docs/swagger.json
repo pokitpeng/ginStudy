@@ -15,42 +15,131 @@
         },
         "version": "1.0"
     },
-    "host": "192.168.0.5:8080",
+    "host": "127.0.0.1:8080",
     "paths": {
-        "/api/register": {
-            "post": {
-                "description": "注册",
-                "consumes": [
+        "/api/v1/auth/info": {
+            "get": {
+                "description": "获取用户信息",
+                "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "用户模块"
+                ],
+                "summary": "获取用户信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户名",
+                        "name": "name",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":...,\"message\": \"登陆成功\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "422": {
+                        "description": "{\"code\":422,\"message\": ...}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/login": {
+            "post": {
+                "description": "用户登陆接口",
+                "consumes": [
+                    "multipart/form-data"
                 ],
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "用户模块"
+                ],
+                "summary": "登陆",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "name",
-                        "name": "name",
-                        "in": "path"
-                    },
-                    {
-                        "type": "string",
-                        "description": "telephone",
+                        "description": "手机号",
                         "name": "telephone",
-                        "in": "path",
+                        "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "password",
+                        "description": "密码",
                         "name": "password",
-                        "in": "path",
+                        "in": "formData",
                         "required": true
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "ok",
+                        "description": "{\"code\":200,\"data\":...,\"message\": \"登陆成功\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "422": {
+                        "description": "{\"code\":422,\"message\": ...}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/register": {
+            "post": {
+                "description": "用户注册接口",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户模块"
+                ],
+                "summary": "注册",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户名",
+                        "name": "name",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "手机号",
+                        "name": "telephone",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "密码",
+                        "name": "password",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":...,\"message\": \"注册成功\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "422": {
+                        "description": "{\"code\":422,\"message\": ...}",
                         "schema": {
                             "type": "string"
                         }

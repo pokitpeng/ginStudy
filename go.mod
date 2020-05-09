@@ -17,6 +17,7 @@ require (
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.6.3
+	github.com/swaggo/gin-swagger v1.2.0
 	github.com/swaggo/swag v1.6.5
 	golang.org/x/crypto v0.0.0-20191205180655-e7c4368fe9dd
 	golang.org/x/sys v0.0.0-20200501145240-bc7a7d42d5c3 // indirect
