@@ -5,6 +5,7 @@ import (
 	_ "ginStudy/docs"
 	"ginStudy/logger"
 	"ginStudy/router"
+	"log"
 	"os"
 
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -42,12 +43,10 @@ func main() {
 
 	port := viper.GetString("server.port")
 	if port == "" {
-		panic(r.Run())
+		log.Fatal("端口号为空")
 	}
-	err := r.Run(":" + port) // listen and serve on 0.0.0.0:8080
-	if err != nil {
-		panic("r.Run err")
-	}
+	log.Printf("swagger接口文档地址：http://127.0.0.1:%v/swagger/index.html", port)
+	r.Run(":" + port) // listen and serve on 0.0.0.0:8080
 
 }
 
