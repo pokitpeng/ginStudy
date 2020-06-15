@@ -8,9 +8,10 @@ import (
 	"github.com/spf13/viper"
 )
 
+// DB 定义一个数据库对象
 var DB *gorm.DB
 
-// 连接数据库
+// InitDB 连接数据库
 func InitDB() *gorm.DB {
 	driverName := viper.GetString("datasource.driverName")
 	host := viper.GetString("datasource.host")
@@ -30,6 +31,7 @@ func InitDB() *gorm.DB {
 	return db
 }
 
+// GetDB 获取初始化后的数据库对象
 func GetDB() *gorm.DB {
 	return DB
 }

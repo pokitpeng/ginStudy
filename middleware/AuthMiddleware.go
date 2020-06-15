@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 授权中间件
+// AuthMiddleware 授权中间件
 func AuthMiddleware() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		// 获取授权头
@@ -29,10 +29,10 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 		// 验证通过后，获取cliams中的userId
-		userId := cliams.UserId
+		userID := cliams.UserID
 		DB := common.GetDB()
 		var user model.User
-		DB.First(&user, userId)
+		DB.First(&user, userID)
 
 		// 用户
 		if user.ID == 0 {

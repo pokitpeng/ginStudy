@@ -9,17 +9,18 @@ import (
 
 var jwtKey = []byte("a_secret_crect")
 
+// Cliams ...
 type Cliams struct {
-	UserId uint
+	UserID uint
 	jwt.StandardClaims
 }
 
-// 发放token
+// ReleaseToken 发放token
 func ReleaseToken(user model.User) (string, error) {
 	// 过期时间
 	expirationTime := time.Now().Add(7 * 24 * time.Hour)
 	cliams := &Cliams{
-		UserId: user.ID,
+		UserID: user.ID,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 			IssuedAt:  time.Now().Unix(),
@@ -35,7 +36,7 @@ func ReleaseToken(user model.User) (string, error) {
 	return tokenString, nil
 }
 
-// 解析token
+// ParseToken 解析token
 func ParseToken(tokenString string) (*jwt.Token, *Cliams, error) {
 	cliams := &Cliams{}
 	token, err := jwt.ParseWithClaims(tokenString, cliams, func(token *jwt.Token) (i interface{}, err error) {

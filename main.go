@@ -2,11 +2,12 @@ package main
 
 import (
 	"ginStudy/common"
-	"ginStudy/routes"
 	_ "ginStudy/docs"
+	"ginStudy/router"
+	"os"
+
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
-	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
@@ -33,7 +34,7 @@ func main() {
 	defer db.Close()
 
 	r := gin.Default()
-	r = routes.CollectRoute(r)
+	r = router.CollectRoute(r)
 	// use ginSwagger middleware to
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
@@ -44,7 +45,7 @@ func main() {
 	r.Run(":" + port) // listen and serve on 0.0.0.0:8080
 }
 
-// 读取配置文件
+// InitConfig 读取配置文件
 func InitConfig() {
 	workDir, _ := os.Getwd()
 	viper.SetConfigName("application")
