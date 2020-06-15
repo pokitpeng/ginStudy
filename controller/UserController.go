@@ -3,10 +3,10 @@ package controller
 import (
 	"ginStudy/common"
 	"ginStudy/dto"
+	"ginStudy/logger"
 	"ginStudy/model"
 	"ginStudy/response"
 	"ginStudy/util"
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -36,17 +36,20 @@ func Register(ctx *gin.Context) {
 	if len(telephone) != 11 {
 		response.Response(ctx, http.StatusUnprocessableEntity, 422, "手机号必须为11位", gin.H{})
 		// ctx.JSON(http.StatusUnprocessableEntity, gin.H{"code": 422, "msg": "手机号必须为11位"})
+		logger.Errorf("[Registe] 手机号必须为11位,telephone:%v,password=%v", telephone, password)
 		return
 	}
 	if len(password) < 6 {
 		response.Response(ctx, http.StatusUnprocessableEntity, 422, "密码不能少于6位", gin.H{})
 		// ctx.JSON(http.StatusUnprocessableEntity, gin.H{"code": 422, "msg": "密码不能少于6位"})
+		logger.Errorf("[Registe] 密码不能少于6位,telephone:%v,password=%v", telephone, password)
 		return
 	}
 	// 判断手机号是否存在
 	if isTelephoneExist(DB, telephone) {
 		response.Response(ctx, http.StatusUnprocessableEntity, 422, "该手机号已注册", gin.H{})
 		// ctx.JSON(http.StatusUnprocessableEntity, gin.H{"code": 422, "msg": "该手机号已注册"})
+		logger.Errorf("[Registe] 该手机号已注册,telephone:%v", telephone)
 		return
 	}
 	// 如果名字没有传，给一个随机的字符串并创建用户
@@ -58,6 +61,7 @@ func Register(ctx *gin.Context) {
 	if err != nil {
 		response.Response(ctx, http.StatusInternalServerError, 500, "加密错误", gin.H{})
 		// ctx.JSON(http.StatusInternalServerError, gin.H{"code": 500, "msg": "加密错误"})
+		logger.Errorf("[Registe] 密码加密错误,telephone:%v,password=%v", telephone, password)
 		return
 	}
 	newUser := model.User{
@@ -65,7 +69,6 @@ func Register(ctx *gin.Context) {
 		Telephone: telephone,
 		Password:  string(hasedPassword),
 	}
-	log.Printf("name:%v\ntelephone:%v\npassword:%v\n", name, telephone, password)
 
 	DB.Create(&newUser)
 	// 返回结果
@@ -74,6 +77,7 @@ func Register(ctx *gin.Context) {
 	// 	"message": "注册成功",
 	// })
 	response.Response(ctx, http.StatusOK, 200, "注册成功", gin.H{})
+	logger.Infof("[Registe] name:%v telephone:%v password:%v", name, telephone, password)
 }
 
 // @Tags 用户模块
@@ -95,11 +99,13 @@ func Login(ctx *gin.Context) {
 	if len(telephone) != 11 {
 		response.Response(ctx, http.StatusUnprocessableEntity, 422, "手机号必须为11位", gin.H{})
 		// ctx.JSON(http.StatusUnprocessableEntity, gin.H{"code": 422, "msg": "手机号必须为11位"})
+		logger.Errorf("[Login] 手机号必须为11位,telephone:%v,password=%v", telephone, password)
 		return
 	}
 	if len(password) < 6 {
 		response.Response(ctx, http.StatusUnprocessableEntity, 422, "密码不能少于6位", gin.H{})
 		// ctx.JSON(http.StatusUnprocessableEntity, gin.H{"code": 422, "msg": "密码不能少于6位"})
+		logger.Errorf("[Login] 密码不能少于6位,telephone:%v,password=%v", telephone, password)
 		return
 	}
 	// 判断手机号是否存在
@@ -109,12 +115,14 @@ func Login(ctx *gin.Context) {
 	if user.ID == 0 {
 		response.Response(ctx, http.StatusUnprocessableEntity, 422, "该用户不存在", gin.H{})
 		// ctx.JSON(http.StatusUnprocessableEntity, gin.H{"code": 422, "msg": "该用户不存在"})
+		logger.Errorf("[Login] 该用户不存在,telephone:%v", telephone)
 		return
 	}
 	// 判断密码是否正确
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
 		response.Response(ctx, http.StatusUnprocessableEntity, 400, "密码错误", gin.H{})
 		// ctx.JSON(http.StatusUnprocessableEntity, gin.H{"code": 400, "msg": "密码错误"})
+		logger.Errorf("[Login] 密码错误,telephone:%v,password=%v", telephone, password)
 		return
 	}
 	// 发放token
@@ -122,7 +130,7 @@ func Login(ctx *gin.Context) {
 	if err != nil {
 		response.Response(ctx, http.StatusInternalServerError, 500, "系统异常", gin.H{})
 		// ctx.JSON(http.StatusInternalServerError, gin.H{"code": 500, "msg": "系统异常"})
-		log.Printf("token generate error:%v", err)
+		logger.Errorf("[Login] 系统异常,发放token失败，telephone:%v", telephone)
 		return
 	}
 	// 返回结果
@@ -132,6 +140,7 @@ func Login(ctx *gin.Context) {
 	// 	"data":    gin.H{"token": token},
 	// })
 	response.Response(ctx, http.StatusOK, 200, "登录成功", gin.H{"token": token})
+	logger.Infof("[Login] telephone:%v password:%v", telephone, password)
 }
 
 // @Tags 用户模块

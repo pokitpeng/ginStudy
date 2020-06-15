@@ -3,6 +3,7 @@ package main
 import (
 	"ginStudy/common"
 	_ "ginStudy/docs"
+	"ginStudy/logger"
 	"ginStudy/router"
 	"os"
 
@@ -29,6 +30,7 @@ import (
 // @host 127.0.0.1:8080
 func main() {
 	InitConfig()
+	logger.InitLogger()
 
 	db := common.InitDB()
 	defer db.Close()
@@ -42,7 +44,11 @@ func main() {
 	if port == "" {
 		panic(r.Run())
 	}
-	r.Run(":" + port) // listen and serve on 0.0.0.0:8080
+	err := r.Run(":" + port) // listen and serve on 0.0.0.0:8080
+	if err != nil {
+		panic("r.Run err")
+	}
+
 }
 
 // InitConfig 读取配置文件
