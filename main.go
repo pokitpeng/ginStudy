@@ -5,8 +5,8 @@ import (
 	_ "ginStudy/docs"
 	"ginStudy/logger"
 	"ginStudy/router"
+	"ginStudy/util"
 	"log"
-	"os"
 
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
@@ -52,7 +52,8 @@ func main() {
 
 // InitConfig 读取配置文件
 func InitConfig() {
-	workDir, _ := os.Getwd()
+	workDir, _ := util.GetExecPath() // go build 后使用
+	// workDir, _ := os.Getwd()  // go run 调试使用
 	viper.SetConfigName("application")
 	viper.SetConfigType("yml")
 	viper.AddConfigPath(workDir + "/config")
