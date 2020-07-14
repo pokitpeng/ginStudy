@@ -91,7 +91,7 @@ func WithFields(fields Fields) *Entry {
 func (entry *Entry) Debug(args ...interface{}) {
 	if logger.Level >= logrus.DebugLevel {
 		entry.e.Data["file"] = fileInfo(2)
-		entry.e.Debug(args)
+		entry.e.Debug(args...)
 	}
 }
 
